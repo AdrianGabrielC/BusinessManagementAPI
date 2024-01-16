@@ -2,6 +2,7 @@
 using GlanzCleanAPI.PresentationLayer.DataTransferObjects.WorkDTOs;
 using GlanzCleanAPI.ServiceLayer.ServiceManager;
 using GlanzCleanAPI.Utilities.RequestFeatures;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -21,6 +22,7 @@ namespace GlanzCleanAPI.PresentationLayer.Controllers
         }
         // GET: api/Work
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult> GetWork([FromQuery] WorkParameters workParameters)
         {
             var pagedResult = await _serviceManager.WorkService.GetWorkAsync<WorkDto>(workParameters, false);
@@ -32,6 +34,7 @@ namespace GlanzCleanAPI.PresentationLayer.Controllers
 
         // GET api/<WorkController>/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult> GetWork(Guid id)
         {
             var work = await _serviceManager.WorkService.GetWorkByIdAsync<WorkDto>(id, false);
@@ -41,6 +44,7 @@ namespace GlanzCleanAPI.PresentationLayer.Controllers
 
         // POST api/<WorkController>
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> PostWork([FromBody] WorkPostDto work)
         {
             if (work is null) return BadRequest("Work object is null");
@@ -54,6 +58,7 @@ namespace GlanzCleanAPI.PresentationLayer.Controllers
 
         // PUT api/<WorkController>/5
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutWork(Guid id, [FromBody] WorkPutDto work)
         {
             if (work is null) return BadRequest("Work parameter is null");
@@ -65,6 +70,7 @@ namespace GlanzCleanAPI.PresentationLayer.Controllers
 
         //DELETE api/<WorkController>/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteWork(Guid id)
         {
             await _serviceManager.WorkService.DeleteWorkAsync(id);

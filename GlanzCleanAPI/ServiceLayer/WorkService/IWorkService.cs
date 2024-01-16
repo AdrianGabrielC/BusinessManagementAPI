@@ -6,6 +6,7 @@ namespace GlanzCleanAPI.ServiceLayer.WorkService
 {
     public interface IWorkService
     {
+        Task<IEnumerable<Work>> GetAllWorkAsync();
         Task<(IEnumerable<T> work, MetaData metaData)> GetWorkAsync<T>(WorkParameters workParameters, bool trackChanges) where T : IWorkDto;
         Task<T> GetWorkByIdAsync<T>(Guid id, bool trackChanges) where T : IWorkDto;
         Task<WorkDto> CreateWorkAsync(WorkPostDto work);

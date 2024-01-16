@@ -7,6 +7,7 @@ namespace GlanzCleanAPI.InfrastructureLayer.Repositories.EmployeeRepo
     {
         Task<PagedList<Employee>> GetEmployeesAsync(EmployeeParameters employeeParameters, bool trackChanges);
         Task<Employee> GetEmployeeByIdAsync(Guid employeeId, bool trackChanges);
+        Task<Employee> GetEmployeeByEmailAsync(string employeeEmail, bool trackChanges);
         void CreateEmployee(Employee employee);
         void UpdateEmployee(Employee employee);
         void DeleteEmployee(Employee employee);

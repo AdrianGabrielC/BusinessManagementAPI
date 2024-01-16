@@ -8,6 +8,7 @@ namespace GlanzCleanAPI.ServiceLayer.EmployeeService
     {
         Task<(IEnumerable<T> employees, MetaData metaData)> GetEmployeesAsync<T>(EmployeeParameters employeeParameters, bool trackChanges) where T : IEmployeeDto;
         Task<T> GetEmployeeByIdAsync<T>(Guid id, bool trackChanges) where T : IEmployeeDto;
+        Task<T> GetEmployeeByEmailAsync<T>(string email, bool trackChanges)where T : IEmployeeDto;
         Task<EmployeeDto> CreateEmployeeAsync<T>(T employee) where T : IEmployeeDto;
         Task UpdateEmployeeAsync(Guid id, EmployeePutDto employee, bool trackChanges);
         Task DeleteEmployeeAsync(Guid id);

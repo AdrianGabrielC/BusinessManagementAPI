@@ -2,6 +2,7 @@
 using GlanzCleanAPI.PresentationLayer.DataTransferObjects.EmployeeWorkDTOs;
 using GlanzCleanAPI.ServiceLayer.ServiceManager;
 using GlanzCleanAPI.Utilities.RequestFeatures;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -21,6 +22,7 @@ namespace GlanzCleanAPI.PresentationLayer.Controllers
         }
         // GET: api/<EmployeeWorkController>
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult> GetEmployeeWork([FromQuery] EmployeeWorkParameters employeeWorkParameters)
         {
             var pagedResult = await _serviceManager.EmployeeWorkService.GetEmployeeWorkAsync<EmployeeWorkDto>(employeeWorkParameters, false);
@@ -32,6 +34,7 @@ namespace GlanzCleanAPI.PresentationLayer.Controllers
 
         // GET api/<EmployeeWorkController>/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult> GetEmployeeWork(Guid id)
         {
             var employeeWork = await _serviceManager.EmployeeWorkService.GetEmployeeWorkByIdAsync<EmployeeWorkDto>(id, false);
@@ -41,6 +44,7 @@ namespace GlanzCleanAPI.PresentationLayer.Controllers
 
         // POST api/<EmployeeWorkController>
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> PostEmployeeWork([FromBody] EmployeeWorkDto employeeWork)
         {
             if (employeeWork is null) return BadRequest("Employee work object is null");
@@ -54,6 +58,7 @@ namespace GlanzCleanAPI.PresentationLayer.Controllers
 
         // PUT api/<EmployeeWorkController>/5
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutEmployeeWork(Guid id, [FromBody] EmployeeWorkPutDto employeeWork)
         {
             if (employeeWork is null) return BadRequest("Employee work parameter is null");
@@ -65,6 +70,7 @@ namespace GlanzCleanAPI.PresentationLayer.Controllers
 
         // DELETE api/<EmployeeWorkController>/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteEmployeeWork(Guid id)
         {
             await _serviceManager.EmployeeWorkService.DeleteEmployeeWorkAsync(id);

@@ -28,6 +28,10 @@ namespace GlanzCleanAPI.InfrastructureLayer.Repositories.EmployeeRepo
             await FindByCondition(employee => employee.Id.Equals(id), trackChanges)
                 .FirstOrDefaultAsync();
 
+        public async Task<Employee> GetEmployeeByEmailAsync(string employeeEmail, bool trackChanges) => 
+            await FindByCondition(employee => employee.Email.Equals(employeeEmail), trackChanges)
+            .FirstOrDefaultAsync();
+
         public void UpdateEmployee(Employee employee) => Update(employee);
 
     }

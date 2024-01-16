@@ -14,6 +14,7 @@ namespace GlanzCleanAPI.InfrastructureLayer.Repositories.EmployeeWorkRepo
         public async Task<IEnumerable<EmployeeWork>> GetAllFilteredAsync(Expression<Func<EmployeeWork, bool>> predicate) => await FindByCondition(predicate, false)
             .OrderBy(e => e.EmployeeId)
             .ToListAsync();
+        public async Task<IEnumerable<EmployeeWork>> GetAllAsync() => await FindAll(false).ToListAsync();
 
         public void CreateEmployeeWork(EmployeeWork employeeWork) => Create(employeeWork);
 

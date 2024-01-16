@@ -13,7 +13,7 @@ namespace GlanzCleanAPI.CoreLayer.Entities
         public string Email { get; set; }
         public string? Phone { get; set; }
         public string? Address { get; set; }
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
         public virtual List<EmployeeWork> Works { get; set; } // Nav property to get all work associated with an employee
     }
 }
