@@ -1,6 +1,6 @@
 ﻿
 namespace GlanzCleanAPI.PresentationLayer.DataTransferObjects.InvoiceDTOs
 {
-    public record InvoicePostDto(Guid Id, Guid WorkId) : IInvoiceDto;
+    public record InvoicePostDto(Guid WorkId) : IInvoiceDto;
 
 }

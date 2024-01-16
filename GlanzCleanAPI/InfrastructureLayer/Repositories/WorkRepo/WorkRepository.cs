@@ -15,6 +15,13 @@ namespace GlanzCleanAPI.InfrastructureLayer.Repositories.WorkRepo
 
         public void DeleteWork(Work work) => Delete(work);
 
+        public async Task<IEnumerable<Work>> GetAllWorkAsync() => await FindAll(false).ToListAsync();
+        public async Task<IEnumerable<Work>> GetAllWorkAsyncFiltered(WorkParameters workParameters) => 
+            await FindByCondition(w => (workParameters.Year == w.DateStartTime.Year) &&
+                                                    (workParameters.Month != null ? w.DateStartTime.Month == workParameters.Month : true) &&
+                                                    (workParameters.Day != null && workParameters.Month != null ? w.DateStartTime.Day == workParameters.Day : true), false)
+                        .ToListAsync();
+
         public async Task<PagedList<Work>> GetWorkAsync(WorkParameters workParameters, bool trackChanges)
         {
             var work = await FindByCondition(w => (workParameters.Year == w.DateStartTime.Year) &&

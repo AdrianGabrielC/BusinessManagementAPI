@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BusinessManagementAPI.PresentationLayer.DataTransferObjects.AuthDTOs;
 using GlanzCleanAPI.CoreLayer.Entities;
 using GlanzCleanAPI.PresentationLayer.DataTransferObjects.EmployeesDTOs;
 
@@ -11,6 +12,7 @@ namespace GlanzCleanAPI.Utilities.Profiles
             CreateMap<EmployeeDto, Employee>();
             CreateMap<EmployeePutDto, Employee>();
             CreateMap<EmployeePostDto, Employee>();
+            CreateMap<RegisterDto, Employee>();
         }
     }
 }

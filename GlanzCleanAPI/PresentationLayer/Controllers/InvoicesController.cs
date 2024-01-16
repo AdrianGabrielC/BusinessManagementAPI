@@ -2,6 +2,7 @@
 using GlanzCleanAPI.PresentationLayer.DataTransferObjects.InvoiceDTOs;
 using GlanzCleanAPI.ServiceLayer.ServiceManager;
 using GlanzCleanAPI.Utilities.RequestFeatures;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -21,6 +22,7 @@ namespace GlanzCleanAPI.PresentationLayer.Controllers
         }
         // GET: api/Invoices
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> GetInvoices([FromQuery] InvoiceParameters invoiceParameters)
         {
             var pagedResult = await _serviceManager.InvoiceService.GetInvoicesAsync<InvoiceDto>(invoiceParameters, false);
@@ -32,6 +34,7 @@ namespace GlanzCleanAPI.PresentationLayer.Controllers
 
         // GET api/<InvoicesController>/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> GetInvoice(Guid id)
         {
             var invoice = await _serviceManager.InvoiceService.GetInvoiceByIdAsync<InvoiceDto>(id, false);
@@ -41,6 +44,7 @@ namespace GlanzCleanAPI.PresentationLayer.Controllers
 
         // POST api/<InvoicesController>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> PostInvoice([FromBody] InvoicePostDto invoice)
         {
             if (invoice is null) return BadRequest("Invoice object is null");
@@ -54,6 +58,7 @@ namespace GlanzCleanAPI.PresentationLayer.Controllers
 
         // PUT api/<InvoicesController>/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutInvoice(Guid id, [FromBody] InvoicePutDto invoice)
         {
             if (invoice is null) return BadRequest("Invoice parameter is null");
@@ -65,6 +70,7 @@ namespace GlanzCleanAPI.PresentationLayer.Controllers
 
         // DELETE api/<InvoicesController>/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteInvoice(Guid id)
         {
             await _serviceManager.InvoiceService.DeleteInvoiceAsync(id);

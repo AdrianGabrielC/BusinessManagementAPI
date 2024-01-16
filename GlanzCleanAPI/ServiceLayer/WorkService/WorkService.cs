@@ -21,7 +21,8 @@ namespace GlanzCleanAPI.ServiceLayer.WorkService
             _repository = repository;
             _mapper = mapper;
         }
-
+        
+        public async Task<IEnumerable<Work>> GetAllWorkAsync() => await _repository.Work.GetAllWorkAsync();
         public async Task<(IEnumerable<T> work, MetaData metaData)> GetWorkAsync<T>(WorkParameters workParameters, bool trackChanges) where T : IWorkDto
         {
             // Parameters validation
@@ -54,10 +55,10 @@ namespace GlanzCleanAPI.ServiceLayer.WorkService
         public async Task<WorkDto> CreateWorkAsync(WorkPostDto work)
         {
             // Check if employees exist
-            foreach (Guid employeeId in work.EmployeeIDs)
+            foreach (WorkEmployeeInfo employeeInfo in work.EmployeesInfo)
             {
-                var employee = await _repository.Employees.GetEmployeeByIdAsync(employeeId, false);
-                if (employee is null) throw new EmployeeNotFoundException(employeeId);
+                var employee = await _repository.Employees.GetEmployeeByIdAsync(employeeInfo.EmployeeId, false);
+                if (employee is null) throw new EmployeeNotFoundException(employeeInfo.EmployeeId.ToString());
             }
 
             // Create work
@@ -65,9 +66,9 @@ namespace GlanzCleanAPI.ServiceLayer.WorkService
             _repository.Work.CreateWork(workEntity);
 
             // Create employee work that links employees to the newly created work
-            foreach (Guid employeeId in work.EmployeeIDs)
+            foreach (WorkEmployeeInfo employeeInfo in work.EmployeesInfo)
             {
-                var employeeWork = new EmployeeWorkPostDto(employeeId, workEntity.Id);
+                var employeeWork = new EmployeeWorkPostDto(employeeInfo.EmployeeId, workEntity.Id, employeeInfo.PricePerHour);
                 var employeeWorkEntity = _mapper.Map<EmployeeWork>(employeeWork);
                 _repository.EmployeeWork.CreateEmployeeWork(employeeWorkEntity);
             }

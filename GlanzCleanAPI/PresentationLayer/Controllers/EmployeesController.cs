@@ -4,6 +4,7 @@ using GlanzCleanAPI.PresentationLayer.DataTransferObjects.EmployeesDTOs;
 using GlanzCleanAPI.ServiceLayer.ServiceManager;
 using GlanzCleanAPI.Utilities.ErrorHandling.NotFoundExceptions;
 using GlanzCleanAPI.Utilities.RequestFeatures;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
@@ -26,6 +27,7 @@ namespace GlanzCleanAPI.PresentationLayer.Controllers
 
         // GET: api/Employees
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult> GetEmployees([FromQuery] EmployeeParameters employeeParameters)
         {
             var pagedResult = await _serviceManager.EmployeeService.GetEmployeesAsync<EmployeeDto>(employeeParameters, false);
@@ -37,6 +39,7 @@ namespace GlanzCleanAPI.PresentationLayer.Controllers
 
         // GET: api/Employees/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult> GetEmployee(Guid id)
         {
             var employee = await _serviceManager.EmployeeService.GetEmployeeByIdAsync<EmployeeDto>(id, false);
@@ -47,6 +50,7 @@ namespace GlanzCleanAPI.PresentationLayer.Controllers
         // POST: api/Employees
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> PostEmployee([FromBody]EmployeeDto employee)
         {
             if (employee is null) return BadRequest("Employee object is null");
@@ -61,6 +65,7 @@ namespace GlanzCleanAPI.PresentationLayer.Controllers
         // PUT: api/Employees/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutEmployee(Guid id, [FromBody]EmployeePutDto employee)
         {
             if (employee is null) return BadRequest("Employee parameter is null");
@@ -72,6 +77,7 @@ namespace GlanzCleanAPI.PresentationLayer.Controllers
 
         // DELETE: api/Employees/5
         [HttpDelete("{id}")]
+        [Authorize] 
         public async Task<IActionResult> DeleteEmployee(Guid id)
         {
             await _serviceManager.EmployeeService.DeleteEmployeeAsync(id);

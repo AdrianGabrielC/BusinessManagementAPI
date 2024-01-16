@@ -4,6 +4,7 @@ using GlanzCleanAPI.ServiceLayer.ServiceManager;
 using GlanzCleanAPI.Utilities.Extensions;
 using GlanzCleanAPI.Utilities.Logging;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 
@@ -19,6 +20,10 @@ LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(),
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();
 builder.Services.ConfigureLoggerService();
+builder.Services.AddAuthentication();
+builder.Services.ConfigureIdentity();
+//builder.Services.Configure<DataProtectionTokenProviderOptions>(opt => opt.TokenLifespan = TimeSpan.FromHours(2)); // This is for the reset password token
+builder.Services.ConfigureJWT(builder.Configuration);
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddScoped<IServiceManager, ServiceManager>();
@@ -48,6 +53,7 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     ForwardedHeaders = ForwardedHeaders.All
 });
 app.UseCors("CorsPolicy");
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
